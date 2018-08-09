@@ -21,14 +21,62 @@
                         echo $user_data . "<br>";
                     }
                 }*/
-
+                //============================================================================
                 /**$users = User::find_all_users();
                 foreach ($users as $user) {
                     echo $user->username . "<br>";
                 }*/
+                //============================================================================
+                //$found_user = User::find_user_by_id(2);
+                //echo $_SESSION['user_id'];
 
-                $found_user = User::find_user_by_id(2);
-                echo $found_user->username;
+                //NEW USER====================================================================
+                /**$user = new User();
+                $user->username = "test of abstract";
+                $user->password = "Example_password";
+                $user->first_name = "John";
+                $user->last_name = "Doe";
+
+                $user->create();*/
+
+                /**if ($user->create()) {
+                    foreach ($user as $value) {
+                        echo $value . "<br>";
+                    }
+                }   else {
+                    echo "Something's wrong!";
+                }*/
+
+                //USER UPDATING===============================================================
+                /**$updated_user = User::find_by_id(3);
+                $updated_user->username = "Next New Karel";
+                $updated_user->password = "New Karel";
+                $updated_user->save();*/
+
+
+
+                User::update_with_params(7, "", "somepass", "", "");
+
+                //DELETE USER=================================================================
+                //$user = User::find_user_by_id(13);
+                //$user->delete();
+
+
+
+
+                //METHOD "save()"=============================================================
+            /**$user = User::find_user_by_id(7);
+            $user->password = "heslo";
+            $user->save();
+
+            $next_user = new User;
+            $next_user->username = "next";
+            $next_user->password = "justpass";
+            $next_user->save();*/
+
+
+
+
 
 
              ?>

@@ -1,6 +1,6 @@
 <?php require_once("includes/header.php"); ?>
 <?php
-$the_message = "";
+
 if ($session->is_signed_in()) {
     redirect("index.php");
 }
@@ -9,25 +9,26 @@ if (isset($_POST['submit'])) {
     $username = trim($_POST['username']);
     $password = trim($_POST['password']);
 
-    $user = User::find_user_by_id(6);
-    $username = $user->username;
-    $password = $user->password;
-
 // Method to check database user
+    //$user_found = User::find_by_id(4);
     $user_found = User::verify_user($username, $password);
+
 
     if ($user_found) {
         $session->login($user_found);
         redirect("index.php");
     } else {
-        $the_message = "Your username or password is incorrect!";
+        $the_message = "Your username or password are incorrect!";
     }
 
 
 } else {
+    $the_message = "";
     $username = "";
     $password = "";
 }
+
+
 ?>
 
 
