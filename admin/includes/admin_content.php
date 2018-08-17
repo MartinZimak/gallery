@@ -55,24 +55,38 @@
 
 
 
-                User::update_with_params(7, "", "somepass", "", "");
+                //User::update_with_params(7, "", "somepass", "", "");
 
                 //DELETE USER=================================================================
-                //$user = User::find_user_by_id(13);
-                //$user->delete();
+                //$photo = new Photo();
+                //$photo = Photo::find_by_id(4);
+                //$photo->delete();
+
+
+                //FIND PHOTOS=================================================================
+            /**$photos = Photo::find_all();
+            foreach ($photos as $photo) {
+                echo $photo->title . "<br>";
+            }*/
 
 
 
 
                 //METHOD "save()"=============================================================
-            /**$user = User::find_user_by_id(7);
-            $user->password = "heslo";
-            $user->save();
+            //$user = User::find_user_by_id(7);
+            //$user->password = "heslo";
+            //$user->save();
 
-            $next_user = new User;
-            $next_user->username = "next";
-            $next_user->password = "justpass";
-            $next_user->save();*/
+            /**$next_photo = new Photo();
+            $next_photo->title = "next";
+            $next_photo->description = "justpass";
+            $next_photo->filename = "next.jpg";
+            $next_photo->type = "iamge";
+            $next_photo->size = 15;
+            $next_photo->save();*/
+
+            $photo = Photo::find_by_id(9);
+            print_r($photo);
 
 
 
