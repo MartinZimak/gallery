@@ -7,7 +7,7 @@ class Db_object
     protected static $db_table = "users";
     protected static $db_table_fields = array('username', 'password', 'first_name', 'last_name');
 
-
+    public $user_image;
     public $id;
     public $tmp_path;
     public $upload_directory = "images";
@@ -108,10 +108,11 @@ class Db_object
     }*/
 
 
-    public function save()  {
+    public function save($file)  {
         if ($this->id) {
-            $this->update();
+            $this->update($file);
         } else {
+
 
             if (!empty($this->errors)) {
                 return false;
@@ -163,8 +164,19 @@ class Db_object
     }
 
 
-    public function update()
+    public function save_image($file) {
+        $this->set_file($file);
+        $target_path = SITE_ROOT . DS . 'admin' . DS . $this->upload_directory . DS . $this->user_image;
+        move_uploaded_file($this->tmp_path, $target_path);
+        unset($this->tmp_path);
+    }
+
+
+    public function update($file)
     {
+        if (isset($file) && $file['error'] !== 4) {
+            $this->save_image($file);
+        }
         global $database;
 
         $properties = $this->clean_properties();
@@ -251,6 +263,16 @@ class Db_object
 
 
         return (mysqli_affected_rows($database->connection) == 1) ? true : false;
+    }
+
+    public static function count_all() {
+        global $database;
+
+        $sql = "SELECT COUNT(*) FROM " . static::$db_table;
+        $result_set = $database->query($sql);
+        $row = mysqli_fetch_array($result_set);
+
+        return array_shift($row);
     }
 
 

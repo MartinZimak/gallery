@@ -1,4 +1,5 @@
 <?php
+require_once ("db_object.php");
 
 
 class User extends Db_object {
@@ -11,16 +12,14 @@ class User extends Db_object {
     public $first_name;
     public $last_name;
     public $user_image;
-    public $upload_directory = "images";
     public $image_placeholder = "http://placehold.it/400x400&text=image";
-    public $tmp_path;
-    public $errors = array();
+
 
 
 
     public function image_path_and_placeholder() {
 
-        return empty($this->user_image) ? $this->image_placeholder : $this->upload_directory . DS . $this->user_image;
+        return empty($this->user_image) ? $this->image_placeholder : $this->picture_path();
 
     }
 
@@ -63,16 +62,12 @@ class User extends Db_object {
         }    else {
             return false;
         }
-
-
-
     }
 
 
 
     public function set_file($file)
     {
-
         if (empty($file) || !$file || !is_array($file)) {
             $this->errors[] = "There was no file uploaded here!";
             return false;
@@ -82,16 +77,21 @@ class User extends Db_object {
         } else {
             $this->user_image = basename($file['name']);
             $this->tmp_path = ($file['tmp_name']);
-
         }
     }
     
-    
+
+    /**public function save_image($file) {
+        $this->set_file($file);
+        $target_path = SITE_ROOT . DS . 'admin' . DS . $this->upload_directory . DS . $this->user_image;
+        move_uploaded_file($this->tmp_path, $target_path);
+        unset($this->tmp_path);
+    }*/
     
 
-    public function save_user_and_image()  {
+    public function save_user_and_image($file)  {
         if ($this->id) {
-            $this->update();
+            $this->update($file);
         } else {
 
             if (!empty($this->errors)) {
@@ -105,9 +105,19 @@ class User extends Db_object {
                 unset($this->tmp_path);
                 return true;
             }
-
-
         }
+    }
+
+
+
+    public function ajax_save_user_image($user_image, $user_id) {
+
+        $this->user_image = $user_image;
+        $this->id = $user_id;
+        $this->save(null);
+
+        echo $this->image_path_and_placeholder();
+
     }
 
 
